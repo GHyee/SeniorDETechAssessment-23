@@ -93,25 +93,19 @@ class TestIsAboveAge(unittest.TestCase):
 
 
 class TestIsValidEmail(unittest.TestCase):
-    def test_valid_email_default_suffixes(self):
-        assert is_valid_email("john.doe@example.com") == True
-        assert is_valid_email("jane_smith@example.net") == True
+    def test_valid_email_with_default_suffixes(self):
+        self.assertTrue(is_valid_email("john.doe@example.com"))
+        self.assertTrue(is_valid_email("jane.doe@example.net"))
 
-    def test_valid_email_custom_suffix(self):
-        assert is_valid_email("jimmy.kim@example.io", valid_suffixes=[".io"]) == True
+    def test_valid_email_with_custom_suffixes(self):
+        suffixes = [".org", ".io"]
+        self.assertTrue(is_valid_email("john.doe@example.org", suffixes=suffixes))
+        self.assertTrue(is_valid_email("jane.doe@example.io", suffixes=suffixes))
 
-    def test_invalid_email_default_suffixes(self):
-        assert is_valid_email("foo@bar.org") == False
-        assert is_valid_email("hello.world@foo.biz") == False
-
-    def test_invalid_email_custom_suffixes(self):
-        assert is_valid_email("alice.jones@invalid", valid_suffixes=[".com", ".net", ".org"]) == False
-
-    def test_invalid_email_empty_suffix_list(self):
-        assert is_valid_email("foo@bar.com", valid_suffixes=[]) == False
-
-    def test_invalid_email_invalid_suffix_list(self):
-        assert is_valid_email("foo@bar.com", valid_suffixes=[".org", ".edu"]) == False
+    def test_invalid_email(self):
+        self.assertFalse(is_valid_email(""))
+        self.assertFalse(is_valid_email("john.doe@example"))
+        self.assertFalse(is_valid_email("john.doe@example.org", suffixes=[".com", ".net"]))
 
 
 class TestIsEmptyName(unittest.TestCase):

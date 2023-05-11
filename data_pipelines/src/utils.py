@@ -1,4 +1,4 @@
-from typing import Tuple, List
+from typing import Tuple, List, Optional
 from datetime import datetime, date
 import hashlib
 
@@ -96,19 +96,23 @@ def is_above_age(date_of_birth: str, age_cutoff: int, date_cutoff: str = "2022-0
     return age >= age_cutoff
 
 
-def is_valid_email(email: str, valid_suffixes: List[str] = [".com", ".net"]) -> bool:
+def is_valid_email(email: str, suffixes: Optional[List[str]] = None) -> bool:
     """
-    Checks if an email address is valid based on a list of valid suffixes.
+    Checks if the email has a valid suffix and contains "@".
 
     Args:
         email (str): The email address to check.
-        valid_suffixes (list, optional): A list of valid email suffixes. Defaults to [".com", ".net"].
+        suffix (Optional[List[str]]): List of valid suffixes. Defaults to [".com", ".net"].
 
     Returns:
-        bool: True if the email address is valid, False otherwise.
+        bool: True if email has a valid suffix and contains "@"; False otherwise.
     """
-    for suffix in valid_suffixes:
-        if email.endswith(suffix):
+    if suffixes is None:
+        suffixes = [".com", ".net"]
+    if "@" not in email:
+        return False
+    for s in suffixes:
+        if email.endswith(s):
             return True
     return False
 
