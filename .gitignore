@@ -1,0 +1,8 @@
+.python-version
+.coverage
+.hypothesis
+__pycache__
+dist
+*.csv
+.DS_Store
+
