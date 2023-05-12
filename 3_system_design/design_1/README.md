@@ -1,4 +1,4 @@
-# Databases
+# Design 1 - Databases User Management
 
 ## Problem statement
 Design a database that will be used by several teams within the company to track the orders of members. Implement a strategy for accessing this database based on the various teams' needs.
