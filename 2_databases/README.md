@@ -1,6 +1,31 @@
 # Databases
 
-## Problem statement:
+## Problem statement 1:
+Design and implement a pipeline on cloud that processes membership applications and determine if an application is successful or unsuccessful. Applications are dropped into a location for processing.
+## Cloud data pipeline Design
+The data pipeline designed in [section 1](../1_data_pipelines/) is already dockerised so it can be deployed in any environment.
+The data pipeline is currently reading and writing data from the mounted volume. When migrating to cloud, we can modify it to read and write from s3 instead.
+
+### Set up Airflow and Docker on Cloud
+Using AWS as an example, we can set up an Amazon Elastic Compute Cloud (EC2) instance to host the Airflow Docker container and a s3 bucket to store the files. This can be done by following the steps:
+  a. Setup a EC2 instance and a s3 bucket
+  b. Install Docker and Airflow on the EC2 instance.
+  c. Replace the `services.webserver.build.args['S3_BUCKET_NAME']` value, `my-bucket`, to the s3 bucket name created in step a in the `docker-compose.yml` file.
+  d. Copy the files in the directory, [cloud_data_pipeline](/2_databases/cloud_data_pipeline/), to a partition to the a s3 bucket.
+  e. Start the Airflow Docker container using `docker-compose up --build`.
+  f. Access the Airflow web UI using the public IP address of the EC2 instance and the port number specified in the `docker-compose.yml` file.
+  g. Activate the data pipeline from the UI.
+  h. To enable remote access to the Airflow web UI, create an inbound rule in the EC2 instance's security group that allows incoming traffic to the Airflow port (e.g. port 8080) from your IP address or a range of IP addresses.
+  
+
+Note: 
+1. To deploy Airflow with high availability, consider setting up a cluster of EC2 instances and using a load balancer to distribute traffic between the instances.
+2. We will need to supply AWS credentials to write to and read from an S3 bucket. One way to supply the credentials is by setting environment variables AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY which is done in [entrypoint.sh](/2_databases/cloud_data_pipeline/dockerfiles/entrypoint.sh) file during the build.
+
+
+Alternatively, to run a managed service, we can also migrate the data pipeline to [Amazon Managed Workflows for Apache Airflow](https://docs.aws.amazon.com/mwaa/latest/userguide/what-is-mwaa.html).
+
+## Problem statement 2:
 Design a PostgreSQL database using Docker to store sales transactions and show the entity-relationship diagram.
 Create tables with DDL statements to enable data consumer to perform queries.
 Provide SQL statements to make query the following including:

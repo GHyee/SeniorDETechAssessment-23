@@ -47,13 +47,14 @@ transactions = []
 for i in range(args.transactions):
     member_id = random.randint(1, args.members)
     item_ids = random.sample(range(1, args.items + 1), random.randint(1, 5))
-    total_price = sum([items[id-1][2] for id in item_ids])
-    total_weight = sum([items[id-1][3] for id in item_ids])
+    total_price = sum([items[id - 1][2] for id in item_ids])
+    total_weight = sum([items[id - 1][3] for id in item_ids])
     transactions.append((member_id, item_ids, total_price, total_weight))
 
 # Insert mock data into the database
 cur.executemany('INSERT INTO items (name, manufacturer, cost, weight) VALUES (%s, %s, %s, %s)', items)
-cur.executemany('INSERT INTO transactions (membership_id, item_ids, total_price, total_weight) VALUES (%s, %s, %s, %s)', transactions)
+cur.executemany('INSERT INTO transactions (membership_id, item_ids, total_price, total_weight) VALUES (%s, %s, %s, %s)',
+                transactions)
 
 # Commit changes and close database connection
 conn.commit()

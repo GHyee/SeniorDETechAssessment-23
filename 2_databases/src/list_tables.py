@@ -8,11 +8,11 @@ load_dotenv()
 
 # Connect to database
 conn = psycopg2.connect(
-    database=os.getenv('DB_NAME'),
-    user=os.getenv('DB_USER'),
-    password=os.getenv('DB_PASSWORD'),
-    host="localhost",
-    port="5432"
+  database=os.getenv('DB_NAME'),
+  user=os.getenv('DB_USER'),
+  password=os.getenv('DB_PASSWORD'),
+  host="localhost",
+  port="5432"
 )
 cur = conn.cursor()
 
