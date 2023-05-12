@@ -55,7 +55,7 @@ The following validations will be performe on the preprocessed data:
 1. Check if the field `mobile_no` has 8 digit.
 2. Check if applicant is above 18 years old as of 1st Jan 2022.
 3. Check if the field `email` ends with `@emailprovider.com` or `@emailprovider.net`.
-4. Check if the `first_name` and `last_name` are both empty.
+4. Check if either `first_name` and `last_name` are not empty.
 
 The records that successfully pass all the validation will be further processed while the failed records are stored as CSV files in the [failed_data](/1_data_pipelines/failed_data) folder. The reason of validation failure will also be found in the `validation_check` field.
 
@@ -66,7 +66,7 @@ The valid data will further processed at the transformation stage. The below fie
 The transformed data will then be stored in the [cleaned_data](/1_data_pipelines/cleaned_data) folder.
 Note: the hashing is performed on the YYYYMMDD string of the `date_of_birth` field.
 
-## Limitation
+## Limitations
 1. Date format for `date_of_birth` field does not follow a fixed format. This leads to an issue when the month and date values are interchangeable. For example, `08/09/1965` can be intepreted as 8th September 1965 or 9th August 1965 	:singapore:. This will also result in confusion when the processing the age and leading to valid records being marked as unsuccessful applications. The current implementation assumes the commonly adopted date format for Singapore, which follows `dd-mm-yyyy` format to resolve the conflict.
 
 2. The data processing functions are not fully optimised due to time constraint. Possible performance boost could be achieved by vectorizing some of the operations in Pandas DataFrame.
