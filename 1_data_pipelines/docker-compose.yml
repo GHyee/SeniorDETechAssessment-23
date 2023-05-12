@@ -28,8 +28,8 @@ services:
       - ./dags:/usr/local/airflow/dags
       - ./source_data:/source_data
       - ./raw_data:/raw_data
-      - ./cleaned_data:/cleaned_data
-      - ./failed_data:/failed_data
+      - ./successful_applicants:/successful_applicants
+      - ./unsuccessful_applicants:/unsuccessful_applicants
     ports:
       - "8080:8080"
     command: webserver

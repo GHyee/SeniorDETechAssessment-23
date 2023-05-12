@@ -19,8 +19,8 @@ from utils import (has_correct_digits,
 # define the input and output directories
 INPUT_DIR = '/source_data'
 OUTPUT_RAW_DIR = '/raw_data'
-OUTPUT_FAILED_DIR = '/failed_data'
-OUTPUT_PASSED_DIR = '/cleaned_data'
+OUTPUT_FAILED_DIR = '/unsuccessful_applicants'
+OUTPUT_PASSED_DIR = '/successful_applicants'
 
 
 # define the PythonOperator that reads the csv files and processes the records
@@ -144,7 +144,7 @@ def validation(**context):
     preprocessed_data = context['ti'].xcom_pull(key='preprocessed_data')
     valid_data, invalid_data = validate_records(preprocessed_data)
     if len(invalid_data) > 0:
-      write_dict_to_csv(invalid_data, OUTPUT_FAILED_DIR, 'failed_data')
+      write_dict_to_csv(invalid_data, OUTPUT_FAILED_DIR, 'unsuccessful_applicants')
     context['ti'].xcom_push(key='valid_data', value=valid_data)
 
 
@@ -152,7 +152,7 @@ def transformation(**context):
     valid_data = context['ti'].xcom_pull(key='valid_data')
     if len(valid_data) > 0:
       transformed_data = transform_records(valid_data)
-      write_dict_to_csv(transformed_data, OUTPUT_PASSED_DIR, 'cleaned_data')
+      write_dict_to_csv(transformed_data, OUTPUT_PASSED_DIR, 'successful_applicants')
 
 
 with dag:

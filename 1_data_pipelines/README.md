@@ -33,8 +33,8 @@ volumes:
   - ./dags:/usr/local/airflow/dags
   - ./source_data:/source_data
   - ./raw_data:/raw_data
-  - ./cleaned_data:/cleaned_data
-  - ./failed_data:/failed_data
+  - ./successful_applicants:/successful_applicants
+  - ./unsuccessful_applicants:/unsuccessful_applicants
 ```
 
 To activate the pipeline, go to the console and click on the `On` button.
@@ -57,9 +57,9 @@ The following validations will be performe on the preprocessed data:
 3. Check if the field `email` ends with `@emailprovider.com` or `@emailprovider.net`.
 4. Check if either `first_name` and `last_name` are not empty.
 
-The records that successfully pass all the validation will be further processed while the failed records are stored as CSV files in the [failed_data](/1_data_pipelines/failed_data) folder. The reason of validation failure will also be found in the `validation_check` field.
+The records that successfully pass all the validation will be further processed while the failed records are stored as CSV files in the [unsuccessful_applicants](/1_data_pipelines/unsuccessful_applicants) folder. The reason of validation failure will also be found in the `validation_check` field.
 
-**Sample failed data**:
+**Sample Unsuccessful data**:
 
 | first_name | last_name | email                              | date_of_birth | mobile_no | above_18 | validate_check      |
 |------------|-----------|------------------------------------|---------------|-----------|----------|---------------------|
@@ -73,11 +73,11 @@ The records that successfully pass all the validation will be further processed 
 The valid data will further processed at the transformation stage. The below fields will be added to the records.
 1. `membership_id` - Concatenation of the `last_name` field, followed by a SHA256 hash of the applicant's `date_of_birth`, truncated to first 5 digits of hash (i.e <last_name>_<hash(YYYYMMDD)>).
 
-The transformed data will then be stored in the [cleaned_data](/1_data_pipelines/cleaned_data) folder.
+The transformed data will then be stored in the [successful_applicants](/1_data_pipelines/successful_applicants) folder.
 Note: the hashing is performed on the YYYYMMDD string of the `date_of_birth` field.
 
 
-**Sample cleaned data**:
+**Sample Successful data**:
 
 first_name | last_name | email                              | date_of_birth | mobile_no | above_18 | membership_id
 ---------- | --------- | ---------------------------------- | ------------- | --------- | -------- | -------------
@@ -90,8 +90,8 @@ Allen      | Williams  | Allen_Williams@sanchez.net         | 19971109      | 77
 
 ### 5. Output
 The processed files are saved to the following paths:
-1. successful application - [cleaned_data](/1_data_pipelines/cleaned_data/)
-2. unsuccessful application - [failed_data](/1_data_pipelines/failed_data/)
+1. successful application - [successful_applicants](/1_data_pipelines/successful_applicants/)
+2. unsuccessful application - [unsuccessful_applicants](/1_data_pipelines/unsuccessful_applicants/)
 3. backup of source data - [source_data](/1_data_pipelines/source_data/)
 
 ## Limitations
