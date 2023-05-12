@@ -29,11 +29,3 @@ for row in results:
 # Close the cursor and connection
 cur.close()
 conn.close()
-
-# Generate .env file if it doesn't exist
-if not os.path.exists('.env'):
-    db_user = input('Enter database user: ')
-    db_password = input('Enter database password: ')
-    with open('.env', 'w') as f:
-        f.write(f'DB_USER={db_user}\n')
-        f.write(f'DB_PASSWORD={db_password}\n')
