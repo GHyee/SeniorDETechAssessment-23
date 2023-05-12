@@ -1,0 +1,27 @@
+- username: logistics
+  password: ${LOGISTICS_PASSWORD}
+  permissions:
+    - table_name: transactions
+      permission_type: SELECT
+    - table_name: transactions
+      permission_type: UPDATE
+
+- username: analytics
+  password: ${ANALYTICS_PASSWORD}
+  permissions:
+    - table_name: transactions
+      permission_type: SELECT
+    - table_name: items
+      permission_type: SELECT
+
+- username: sales
+  password: ${SALES_PASSWORD}
+  permissions:
+    - table_name: items
+      permission_type: SELECT
+    - table_name: items
+      permission_type: INSERT
+    - table_name: items
+      permission_type: UPDATE
+    - table_name: items
+      permission_type: DELETE
