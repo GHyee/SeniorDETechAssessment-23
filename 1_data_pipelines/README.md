@@ -84,7 +84,15 @@ The transformed data will then be stored in the [cleaned_data](/1_data_pipelines
 Note: the hashing is performed on the YYYYMMDD string of the `date_of_birth` field.
 
 Expected output:
+```
 
+```
+
+### 5. Output
+The processed files are saved to the following paths:
+1. successful application - [cleaned_data](/1_data_pipelines/cleaned_data/)
+2. unsuccessful application - [failed_data](/1_data_pipelines/failed_data/)
+3. backup of source data - [source_data](/1_data_pipelines/source_data/)
 
 ## Limitations
 1. Date format for `date_of_birth` field does not follow a fixed format. This leads to an issue when the month and date values are interchangeable. For example, `08/09/1965` can be intepreted as 8th September 1965 or 9th August 1965 	:singapore:. This will also result in confusion when the processing the age and leading to valid records being marked as unsuccessful applications. The current implementation assumes the commonly adopted date format for Singapore, which follows `dd-mm-yyyy` format to resolve the conflict.
