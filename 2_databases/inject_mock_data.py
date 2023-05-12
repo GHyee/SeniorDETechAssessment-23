@@ -1,84 +1,65 @@
 import argparse
 import os
-import psycopg2
 import random
+import psycopg2
 from dotenv import load_dotenv
 
-# Load environment variables
+
+# Load environment variables from .env file
 load_dotenv()
 
-# Define command-line arguments
+# Parse command-line arguments
 parser = argparse.ArgumentParser()
-parser.add_argument(
-  '--num_items',
-  type=int,
-  default=100,
-  help='number of items to generate'
-)
-parser.add_argument(
-  '--num_transactions',
-  type=int,
-  default=50,
-  help='number of transactions to generate'
-)
+parser.add_argument('--items', '-i', type=int, default=50, help='number of items to insert')
+parser.add_argument('--transactions', '-t', type=int, default=100, help='number of transactions to insert')
+parser.add_argument('--members', '-m', type=int, default=10, help='number of members to insert')
 args = parser.parse_args()
 
-# Connect to database
+# Database connection settings
+DB_HOST = 'localhost'
+DB_PORT = 5432
+DB_NAME = os.getenv('DB_NAME')
+DB_USER = os.getenv('DB_USER')
+DB_PASSWORD = os.getenv('DB_PASSWORD')
+
+# Connect to the database
 conn = psycopg2.connect(
-  database=os.getenv('DB_NAME'),
-  user=os.getenv('DB_USER'),
-  password=os.getenv('DB_PASSWORD'),
-  host="localhost",
-  port="5432"
+  host=DB_HOST,
+  port=DB_PORT,
+  dbname=DB_NAME,
+  user=DB_USER,
+  password=DB_PASSWORD
 )
+
+# Create cursor
 cur = conn.cursor()
 
-
-# Generate mock data for items table
+# Generate mock data
 items = []
-for i in range(args.num_items):
-    name = f'Item {i+1}'
-    manufacturer = f'Manufacturer {random.randint(1, 10)}'
-    cost = round(random.uniform(10, 1000), 2)
-    weight = round(random.uniform(0.1, 50), 2)
-    items.append((name, manufacturer, cost, weight))
+for i in range(args.items):
+    item_name = f'Item {i+1}'
+    item_manufacturer = f'Manufacturer {i+1}'
+    item_cost = round(random.uniform(10, 1000), 2)
+    item_weight = round(random.uniform(0.1, 50), 2)
+    items.append((item_name, item_manufacturer, item_cost, item_weight))
 
-
-# Insert mock data into items table
-cur.executemany(
-    "INSERT INTO items (name, manufacturer, cost, weight) VALUES (%s, %s, %s, %s)",
-    items
-)
-conn.commit()
-
-
-# Generate mock data for transactions table
 transactions = []
-for i in range(args.num_transactions):
-    membership_id = random.randint(1, 10)
-    item_ids = random.sample(range(1, args.num_items + 1), random.randint(1, 5))
-    total_price = sum([items[id - 1][2] for id in item_ids])
-    total_weight = sum([items[id - 1][3] for id in item_ids])
-    transactions.append((membership_id, item_ids, total_price, total_weight))
+for i in range(args.transactions):
+    member_id = random.randint(1, args.members)
+    item_ids = random.sample(range(1, args.items + 1), random.randint(1, 5))
+    total_price = sum([items[id-1][2] for id in item_ids])
+    total_weight = sum([items[id-1][3] for id in item_ids])
+    transactions.append((member_id, item_ids, total_price, total_weight))
 
+# Insert mock data into the database
+cur.executemany('INSERT INTO items (name, manufacturer, cost, weight) VALUES (%s, %s, %s, %s)', items)
+cur.executemany('INSERT INTO transactions (membership_id, item_ids, total_price, total_weight) VALUES (%s, %s, %s, %s)', transactions)
 
-# Insert mock data into transactions table
-cur.executemany(
-    "INSERT INTO transactions (membership_id, item_ids, total_price, total_weight) VALUES (%s, %s, %s, %s)",
-    transactions
-)
+# Commit changes and close database connection
 conn.commit()
-
-
-# Close database connection
 cur.close()
 conn.close()
 
-
-# Generate .env file if it doesn't exist
-if not os.path.exists('.env'):
-    db_user = input('Enter database user: ')
-    db_password = input('Enter database password: ')
-    with open('.env', 'w') as f:
-        f.write(f'DB_USER={db_user}\n')
-        f.write(f'DB_PASSWORD={db_password}\n')
+# Print summary of added data
+print(f'Added {len(items)} items to the database.')
+print(f'Added {len(transactions)} transactions to the database.')
