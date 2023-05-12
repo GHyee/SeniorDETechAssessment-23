@@ -3,6 +3,9 @@ import os
 
 # Generate .env file if it doesn't exist
 if not os.path.exists('.env'):
+    db_host = input('Enter host name: ')
+    db_port = input('Enter port number: ')
+    db_password = input('Enter database password: ')
     db_name = input('Enter database name: ')
     db_user = input('Enter database user: ')
     db_password = input('Enter database password: ')
