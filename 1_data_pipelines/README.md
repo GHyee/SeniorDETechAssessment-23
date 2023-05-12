@@ -27,6 +27,16 @@ docker-compose up --build
 The Airflow instance should be deployed and running on the [localhost](http://0.0.0.0:8080/admin/).
 
 
+Note that the following paths are mounted to the Docker container to read and write the records. If the paths are not already created, it should be created when the above code is executed.
+```yaml
+volumes:
+  - ./dags:/usr/local/airflow/dags
+  - ./source_data:/source_data
+  - ./raw_data:/raw_data
+  - ./cleaned_data:/cleaned_data
+  - ./failed_data:/failed_data
+```
+
 To activate the pipeline, go to the console and click on the `On` button.
 Note that the CSV files should be stored in the [source_data](/1_data_pipelines/source_data) folder. If the files are dropped after the pipeline is activated, the processing will only kick off in the next hour.
 
