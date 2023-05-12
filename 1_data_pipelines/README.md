@@ -59,34 +59,34 @@ The following validations will be performe on the preprocessed data:
 
 The records that successfully pass all the validation will be further processed while the failed records are stored as CSV files in the [failed_data](/1_data_pipelines/failed_data) folder. The reason of validation failure will also be found in the `validation_check` field.
 
-Sample failed data:
-```
-first_name,last_name,email,date_of_birth,mobile_no,above_18,validate_check
-William,Dixon,William_Dixon@woodward-fuller.biz,19860110,40601711,True,invalid_email
-Kristen,Horn,Kristen_Horn@lin.com,19740910,737931,True,invalid_mobile_number
-Kimberly,Chang,Kimberly_Chang@johnson-lopez.biz,19740227,2692047,True,invalid_mobile_number
-Mary,Ball,Mary_Ball@stevens.biz,19680502,886359,True,invalid_mobile_number
-```
+**Sample failed data**:
+
+| first_name | last_name | email                              | date_of_birth | mobile_no | above_18 | validate_check      |
+|------------|-----------|------------------------------------|---------------|-----------|----------|---------------------|
+| William    | Dixon     | William_Dixon@woodward-fuller.biz  | 19860110      | 40601711  | True     | invalid_email       |
+| Kristen    | Horn      | Kristen_Horn@lin.com               | 19740910      | 737931    | True     | invalid_mobile_number |
+| Kimberly   | Chang     | Kimberly_Chang@johnson-lopez.biz   | 19740227      | 2692047   | True     | invalid_mobile_number |
+| Mary       | Ball      | Mary_Ball@stevens.biz              | 19680502      | 886359    | True     | invalid_mobile_number |
+
 
 ### 4. Transformation
 The valid data will further processed at the transformation stage. The below fields will be added to the records.
 1. `membership_id` - Concatenation of the `last_name` field, followed by a SHA256 hash of the applicant's `date_of_birth`, truncated to first 5 digits of hash (i.e <last_name>_<hash(YYYYMMDD)>).
-Sample cleaned data:
-```
-first_name,last_name,email,date_of_birth,mobile_no,above_18,membership_id
-Patty,Smith,Patty_Smith@ross.com,19750827,59428759,True,Smith_c7677
-Sean,Wang,Sean_Wang@gibson-calderon.com,19600311,25595367,True,Wang_04168
-Richard,Estrada,Richard_Estrada@malone.com,19921015,22821527,True,Estrada_0bf5b
-Jackson,Cline,Jackson_Cline@hudson.net,19710121,48056519,True,Cline_825fb
-```
 
 The transformed data will then be stored in the [cleaned_data](/1_data_pipelines/cleaned_data) folder.
 Note: the hashing is performed on the YYYYMMDD string of the `date_of_birth` field.
 
-Expected output:
-```
 
-```
+**Sample cleaned data**:
+
+first_name | last_name | email                              | date_of_birth | mobile_no | above_18 | membership_id
+---------- | --------- | ---------------------------------- | ------------- | --------- | -------- | -------------
+Patty      | Smith     | Patty_Smith@ross.com              | 19750827      | 59428759  | True     | Smith_c7677
+Sean       | Wang      | Sean_Wang@gibson-calderon.com     | 19600311      | 25595367  | True     | Wang_04168
+Richard    | Estrada   | Richard_Estrada@malone.com        | 19921015      | 22821527  | True     | Estrada_0bf5b
+Jackson    | Cline     | Jackson_Cline@hudson.net           | 19710121      | 48056519  | True     | Cline_825fb
+Allen      | Williams  | Allen_Williams@sanchez.net         | 19971109      | 77991519  | True     | Williams_3e726
+
 
 ### 5. Output
 The processed files are saved to the following paths:
