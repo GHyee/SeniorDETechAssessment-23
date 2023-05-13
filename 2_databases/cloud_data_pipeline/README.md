@@ -12,7 +12,7 @@ The data pipeline is currently reading and writing data from the mounted volume.
 ### Fully cloud native pipeline
 Another alternative is to fully use AWS native services to design the pipeline. This is reduce the maintenance effort and might be more cost effective and scalable.
 
-** Architecture Design **
+**Architecture Design**
 
 1. AWS S3 bucket for storing the membership applications and processed files.
 - A partition can be created to receive the applications. When a new file is dropped in this partition, the pipeline will be triggered.
@@ -27,5 +27,24 @@ Another alternative is to fully use AWS native services to design the pipeline. 
 
 3. AWS CloudWatch can be used to execute the lambda on an hourly basis. It also stores the log of the Lambda function activity and set up an alarm in case of errors.
 
-** Implementation **
-The above pipeline can be implemented and managed through Terraform, a  Infrastructure as Code (IaC) tool.
+**Implementation**
+The above pipeline can be implemented and managed through Terraform, a  Infrastructure as Code (IaC) tool. The terraform scripts are saved in the [terraform](/2_databases/cloud_data_pipeline/terraform/) folder.
+The python scripts to be executed by the Lambda function is saved in [terraform/src](/2_databases/cloud_data_pipeline/terraform/src/) folder.
+
+Assuming that Terraform in already installed, follow the below steps to deploy the resources.
+
+1. Initialize a working directory containing Terraform configuration files.
+```
+cd terraform
+terraform init
+```
+
+2. Create an execution plan and preview the changes that Terraform plans to make to the cloud infrastructure.
+```
+terraform plan
+```
+
+3. Deploy the resources.
+```
+terraform apply -auto-approve
+```
