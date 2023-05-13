@@ -7,4 +7,5 @@ __pycache__
 dist
 .DS_Store
 .zip
-.tfstate*
+.tfstate
+.tfstate.backup
