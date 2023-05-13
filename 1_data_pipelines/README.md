@@ -24,7 +24,7 @@ To run the pipeline, execute the following codes:
 cd 1_data_pipelines
 docker-compose up --build
 ```
-The Airflow instance should be deployed and running on the [localhost](http://0.0.0.0:8080/admin/).
+The Airflow instance should be deployed and running on port 8080 of the localhost. i.e. http://0.0.0.0:8080/admin/
 
 
 Note that the following paths on the local machine are mounted to the Docker container to read and write the records. The processed files will be stored in the local machine once it is ready. If the paths are not already created, it should be created when the above code is executed.
