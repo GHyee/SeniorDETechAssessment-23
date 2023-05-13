@@ -27,6 +27,7 @@ This table contains the sales transaction. Each record represents the sales tran
 - total_weight: total weight of all the items sold in one transaction, in Kg.
 
 ### Entity-relationship diagram
+```
 +----------+         +--------------+
 |   items  |         | transactions |
 +----------+         +--------------+
@@ -36,7 +37,7 @@ This table contains the sales transaction. Each record represents the sales tran
 | cost     |         | total_price  |
 | weight   |         | total_weight |
 +----------+         +--------------+
-
+```
 The `items` table has a one-to-many relationship with the `transactions` table. Each item can appear in multiple transactions, but each transaction can only contain items from the items table. The transactions table also has a many-to-one relationship with the items table. Each transaction can contain multiple items, but each item can only appear in one transaction.
 
 
