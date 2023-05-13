@@ -104,7 +104,7 @@ The arguments represents:
 python -m make_query --f top_3_items.sql
 ```
 
-The below 2 SQL scripts are provided to answer the questions in the task.
+The below 2 SQL scripts are provided in [sql_queries](./sql_queries/) folder to answer the questions in the task.
 
 1. Which are the top 10 members by spending?
 ```sql

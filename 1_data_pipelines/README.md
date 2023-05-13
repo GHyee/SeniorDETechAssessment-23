@@ -9,7 +9,7 @@ Some additional features includes:
 - Storing raw data in a separate folder for backup purpose.
 - Adding the reason to the failed records before storing them in a separate folder for analysis and troubleshooting.
 
-![alt text](https://github.com/ghyee/SeniorDETechAssessment-23/blob/main/images/data-pipeline.jpg?raw=true)
+![data-pipeline](https://github.com/ghyee/SeniorDETechAssessment-23/blob/main/images/data-pipeline.jpg?raw=true)
 
 ## Installation
 Airflow and Docker are required to execute this data pipeline. To install Airflow, run the following code:

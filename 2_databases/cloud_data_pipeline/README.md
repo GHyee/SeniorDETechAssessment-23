@@ -25,7 +25,11 @@ Another alternative is to fully use AWS native services to design the pipeline. 
 - If the application is successful, the Lambda function should upload the membership application and the membership ID to a separate partition in the AWS S3 bucket for successful applications.
 - If the application is unsuccessful, the Lambda function should move the application to a separate partition in the AWS S3 bucket for unsuccessful applications.
 
+![sample lambda logs](/images/lambda_logs.png)
+
 3. AWS CloudWatch can be used to execute the lambda on an hourly basis. It also stores the log of the Lambda function activity and set up an alarm in case of errors.
+
+![eventbridge rule](/images/event_bridge.png)
 
 **Implementation**
 The above pipeline can be implemented and managed through Terraform, a  Infrastructure as Code (IaC) tool. The terraform scripts are saved in the [terraform](/2_databases/cloud_data_pipeline/terraform/) folder.
