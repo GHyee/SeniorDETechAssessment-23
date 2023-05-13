@@ -10,4 +10,5 @@ Safety = High <br>
 Class Value = Good <br>
 
 ## Data Modelling
-The data modelling is done in the notebook, [predict_price.ipynb](/5_machine_learning/predict_price.ipynb).
+
+The data modelling is done in the notebook, go to [predict_price.ipynb](/5_machine_learning/predict_price.ipynb).
