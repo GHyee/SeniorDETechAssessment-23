@@ -1,6 +1,8 @@
 .python-version
 .coverage
 .hypothesis
+.terraform
+.terraform.lock.hcl
 __pycache__
 dist
 .DS_Store
